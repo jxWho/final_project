@@ -1,6 +1,11 @@
 from . import api
 import flask
 
+@api.before_request
+def before_request():
+    pass
+
+
 @api.app_errorhandler(404)
 def api_not_fount(e):
     return flask.jsonify(status=-1, msg="no such api");
