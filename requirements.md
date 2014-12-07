@@ -1,4 +1,5 @@
 Flask==0.10.1
+Flask-Cors==1.9.0
 Flask-SQLAlchemy==2.0
 Flask-Script==2.0.5
 Flask-WTF==0.10.3
@@ -8,4 +9,5 @@ SQLAlchemy==0.9.8
 WTForms==2.0.1
 Werkzeug==0.9.6
 itsdangerous==0.24
+six==1.8.0
 wsgiref==0.1.2
