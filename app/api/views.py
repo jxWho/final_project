@@ -2,7 +2,33 @@ from flask import session, jsonify
 import flask
 from . import api
 from .. import db
-from ..models import User
+from ..models import User, Post
+import json
+
+@api.route('/post', methods=['GET'])
+def get_posts():
+    posts = Post.query.filter_by(done=0).order_by( Post.id.desc() ).all()
+    return flask.jsonify(posts= [ item.serialize for item in posts] )
+
+@api.route('/post', methods=['POST'])
+def add_post():
+    try:
+        new_post = Post()
+        new_post.title = flask.request.form['title']
+        new_post.content = flask.request.form['content']
+        new_post.user_id = flask.request.form['userID']
+    except:
+        return flask.jsonify(status=0)
+
+    db.session.add( new_post )
+    try:
+        db.session.commit()
+    except:
+        db.session.rollback()
+        return flask.jsonify(status=0)
+
+    return flask.jsonify(status=1)
+
 
 @api.route('/user/log_in', methods=['POST'])
 def user_log_in():
