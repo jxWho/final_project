@@ -8,7 +8,7 @@ import json
 @api.route('/post', methods=['GET'])
 def get_posts():
     posts = Post.query.filter_by(done=0).order_by( Post.id.desc() ).all()
-    return flask.jsonify(posts= [ item.serialize for item in posts] )
+    return flask.jsonify(status=1, posts= [ item.serialize for item in posts] )
 
 @api.route('/post', methods=['POST'])
 def add_post():
@@ -40,10 +40,14 @@ def user_log_in():
     user = User.query.filter_by(username=username, password=password).first()
     print dir(user)
     if user is not None:
+        print user.email
         return flask.jsonify(
                     status=1,
                     username=username,
-                    userID = user.id
+                    userID = user.id,
+                    password=password,
+                    phoneNumber = user.phoneNumber,
+                    email = user.email
                 );
     else:
         return flask.jsonify(status=0);
